@@ -3,7 +3,7 @@ import java.util.Random;
 public class WeightedGraph {
 
 	private int vertices;
-	private Edge[][] matrix;
+	private int[][] matrix;
 
 	public static void main(String[] args) {
 		WeightedGraph myGraph = new WeightedGraph(20,45);
@@ -17,20 +17,21 @@ public class WeightedGraph {
 		
 	}
 
-	private void addEdge(Edge edgeToAdd, int xCord, int yCord) {
-		matrix[xCord][yCord] = edgeToAdd;
+	private void addEdge(int cost, int xCord, int yCord) {
+		matrix[xCord][yCord] = cost;
 	}
 
-	private Edge getEdge(int xCord, int yCord) {
+	private int getEdge(int xCord, int yCord) {
 
-		if (containsEdge(xCord, yCord)) {
+		if (isFilled(xCord, yCord)) {
 			return matrix[xCord][yCord];
 		}
-		return new Edge(0,0);
+		return 0;
 	}
 
-	private boolean containsEdge(int xCord, int yCord) {
-		if (matrix[xCord][yCord] != null) {
+	
+	private boolean isFilled(int xCord, int yCord){
+		if (matrix[xCord][yCord] != 0) {
 			return true;
 		} else {
 			return false;
@@ -39,30 +40,23 @@ public class WeightedGraph {
 	
 	private void createMatrix(int vertices, int edges){
 		
-		matrix = new Edge[vertices+1][vertices+1];
+		matrix = new int[vertices+1][vertices+1];
 		
 		
 		for(int i = edges-1; i >= 0; i--){
-			Edge toAdd = makeRandomEdge();
-			placeEdgeRandomly(toAdd,vertices);
+			placeEdgeRandomly(vertices);
 		}
 		
 	}
 	
-	private void placeEdgeRandomly(Edge toPlace, int vertices){
+	private void placeEdgeRandomly(int vertices){
 		Random rn = new Random();
 		int ranVerticeX = rn.nextInt((vertices + 1) - 1) + 1;
 		int ranVerticeY = rn.nextInt((vertices + 1) - 1) + 1;
+		int ranCost = rn.nextInt((20 + 1) - 1) + 1;
 		
-		matrix[ranVerticeX][ranVerticeY] = toPlace;
+		matrix[ranVerticeX][ranVerticeY] = ranCost;
 		
-	}
-	
-	private Edge makeRandomEdge(){
-		Random rn = new Random();
-		int weight = rn.nextInt((10 + 1) - 1) + 1;
-		int cost = rn.nextInt((10 + 1) - 1) + 1;
-		return new Edge(weight,cost);
 	}
 	
 	private void printMatrix(){
@@ -76,7 +70,7 @@ public class WeightedGraph {
 	    {
 	    	System.out.print(i + " ");
 	        for (int j = 1; j <= vertices; j++)
-	            System.out.print(getEdge(i, j).getCost() + " ");
+	            System.out.print(getEdge(i, j) + " ");
 	        System.out.println();
 	    }
 	    
