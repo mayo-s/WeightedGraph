@@ -26,7 +26,7 @@ public class WeightedGraph {
 		if (containsEdge(xCord, yCord)) {
 			return matrix[xCord][yCord];
 		}
-		return null;
+		return new Edge(0,0);
 	}
 
 	private boolean containsEdge(int xCord, int yCord) {
@@ -39,21 +39,22 @@ public class WeightedGraph {
 	
 	private void createMatrix(int vertices, int edges){
 		
-		matrix = new Edge[vertices][vertices];
+		matrix = new Edge[vertices+1][vertices+1];
 		
 		
 		for(int i = edges-1; i >= 0; i--){
 			Edge toAdd = makeRandomEdge();
-			placeEdgeRandomly(toAdd,vertices-1);
+			placeEdgeRandomly(toAdd,vertices);
 		}
 		
 	}
 	
 	private void placeEdgeRandomly(Edge toPlace, int vertices){
 		Random rn = new Random();
-		int ranVertices = rn.nextInt((vertices + 1) - 1) + 1;
+		int ranVerticeX = rn.nextInt((vertices + 1) - 1) + 1;
+		int ranVerticeY = rn.nextInt((vertices + 1) - 1) + 1;
 		
-		matrix[ranVertices][ranVertices] = toPlace;
+		matrix[ranVerticeX][ranVerticeY] = toPlace;
 		
 	}
 	
@@ -65,25 +66,23 @@ public class WeightedGraph {
 	}
 	
 	private void printMatrix(){
-		for(Edge[] curr : matrix){
-			for(Edge e : curr)
-				if(e != null){
-					System.out.println("[" + e.getWeight() + "," + e.getCost() + "]");
-				}
-			
-		}
+		
+		System.out.print("  ");
+	    for (int i = 1; i <= vertices; i++)
+	        System.out.print(i + " ");
+	    System.out.println();
+
+	    for (int i = 1; i <= vertices; i++)
+	    {
+	    	System.out.print(i + " ");
+	        for (int j = 1; j <= vertices; j++)
+	            System.out.print(getEdge(i, j).getCost() + " ");
+	        System.out.println();
+	    }
+	    
+	    System.out.println();
 			
 	}
-
-	// addEdge, addEdge, addVertex, containsEdge, containsEdge, containsVertex,
-	// edgeSet, edgesOf, getAllEdges, getEdge, getEdgeFactory, getEdgeSource,
-	// getEdgeTarget, getEdgeWeight, removeAllEdges, removeAllEdges,
-	// removeAllVertices, removeEdge, removeEdge, removeVertex, vertexSet
-
-	// Field oder Klassen ? Edges & Vertices
-
-	// get edge(edge, postion, add edge(edge, position),
-
-	// Random edges,
+	
 
 }
