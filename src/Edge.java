@@ -1,20 +1,28 @@
 
 public class Edge {
 	
-	private int distance;
+	private int weight;
 	private int cost;
 
-	public Edge(int distance, int cost){
+	public Edge(int weight, int cost){
 		this.cost = cost;
-		this.distance = distance;
+		this.weight = weight;
 	}
 	
-	public int getDistance(){
-		return this.distance;
+	public int getWeight(){
+		return this.weight;
 	}
 	
 	public int getCost(){
 		return this.cost;
+	}
+	
+	public void setWeight(int weight){
+		this.weight = weight;
+	}
+	
+	public void setCost(int cost){
+		this.cost = cost;
 	}
 	
 	
