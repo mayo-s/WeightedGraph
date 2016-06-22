@@ -51,9 +51,18 @@ public class WeightedGraph {
 	
 	private void placeEdgeRandomly(int vertices){
 		Random rn = new Random();
-		int ranVerticeX = rn.nextInt((vertices + 1) - 1) + 1;
-		int ranVerticeY = rn.nextInt((vertices + 1) - 1) + 1;
+		int ranVerticeX = 0;
+		int ranVerticeY = 0;
+		do {
+			ranVerticeX = rn.nextInt((vertices + 1) - 1) + 1;
+			ranVerticeY = rn.nextInt((vertices + 1) - 1) + 1;
+			
+		} while (isFilled(ranVerticeX,ranVerticeY));
+			
+		
+		
 		int ranCost = rn.nextInt((20 + 1) - 1) + 1;
+		
 		
 		matrix[ranVerticeX][ranVerticeY] = ranCost;
 		
