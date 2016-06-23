@@ -8,6 +8,7 @@ public class WeightedGraph {
 	public static void main(String[] args) {
 		WeightedGraph wg = new WeightedGraph(MAX_VERTICES, MAX_EDGES);
 		wg.printMatrix();
+		wg.shortestPath();
 	}
 
 	public WeightedGraph(int vertices, int edge) {
@@ -31,7 +32,8 @@ public class WeightedGraph {
 				for (int y = 1; y < MAX_VERTICES; y++) {
 					int decision = (int) (Math.random() * 5);
 					if (decision == 1) {
-						addEdge(x, y, new Edge((int) (Math.random() * maxCost + 1)));
+						int cost = (int) (Math.random() * maxCost + 1);
+						addEdge(x, y, new Edge(cost));
 						edgeCnt++;
 					} else {
 						addEdge(x, y, null);
@@ -45,11 +47,11 @@ public class WeightedGraph {
 		int edge = 0;
 		for (int x = 1; x < MAX_VERTICES; x++) {
 			for (int y = 1; y < MAX_VERTICES; y++) {
-				if (getEdge(x, y) != null)
+				if (getEdge(x, y) != null) {
 					edge = getEdge(x, y).getCost();
-				else
+				} else {
 					edge = 0;
-
+				}
 				System.out.print(" " + edge);
 			}
 			System.out.println("");
@@ -57,9 +59,33 @@ public class WeightedGraph {
 	}
 
 	private boolean containsEdge(int x, int y) {
-		if (getEdge(x, y) != null)
+		if (getEdge(x, y) != null) {
 			return true;
-
+		}
 		return false;
+	}
+
+	private String shortestPath() {
+
+		int from = (int) (Math.random() * MAX_VERTICES);
+		int to = (int) (Math.random() * MAX_VERTICES);
+
+		if (from == to) {
+			shortestPath();
+		}
+		if(containsEdge(from, to)){
+			return "Shortest Path from: " + from + " to " + to + "\nIs connected directly.The costs are " + getEdge(from, to).getCost();
+		}
+		if(!containsEdge(from,to)){
+			dijkstra(from, to);
+		}
+				
+		return null;
+	}
+	
+	private void dijkstra(int from, int to){
+		
+		
+		// return null;
 	}
 }

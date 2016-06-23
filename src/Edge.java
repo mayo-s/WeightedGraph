@@ -3,7 +3,7 @@ public class Edge {
 	private int cost;
 
 	public Edge(int cost) {
-		this.cost = cost;
+		setCost(cost);
 	}
 
 	public int getCost() {
@@ -13,5 +13,4 @@ public class Edge {
 	public void setCost(int cost) {
 		this.cost = cost;
 	}
-
 }
