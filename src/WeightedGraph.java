@@ -8,7 +8,7 @@ public class WeightedGraph {
 	public static void main(String[] args) {
 		WeightedGraph wg = new WeightedGraph(MAX_VERTICES, MAX_EDGES);
 		wg.printMatrix();
-		wg.shortestPath();
+		System.out.println(wg.shortestPath());
 	}
 
 	public WeightedGraph(int vertices, int edge) {
@@ -69,18 +69,22 @@ public class WeightedGraph {
 
 		int from = (int) (Math.random() * MAX_VERTICES);
 		int to = (int) (Math.random() * MAX_VERTICES);
+		String result = null;
+		
+		// System.out.println("\nCalculating shortest Path from: " + from + " to " + to);
 
 		if (from == to) {
 			shortestPath();
 		}
 		if(containsEdge(from, to)){
-			return "Shortest Path from: " + from + " to " + to + "\nIs connected directly.The costs are " + getEdge(from, to).getCost();
+			result = "Shortest Path from: " + from + " to " + to + "\nIs connected directly. The costs are " + getEdge(from, to).getCost();
 		}
 		if(!containsEdge(from,to)){
 			dijkstra(from, to);
+			result =  "Shortest Path from: " + from + " to " + to + " can not yet be calculated.";
 		}
 				
-		return null;
+		return result;
 	}
 	
 	private void dijkstra(int from, int to){
