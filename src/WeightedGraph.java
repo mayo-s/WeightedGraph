@@ -65,6 +65,7 @@ public class WeightedGraph {
 		
 		
 		matrix[ranVerticeX][ranVerticeY] = ranCost;
+		matrix[ranVerticeY][ranVerticeX] = ranCost * -1;
 		
 	}
 	
