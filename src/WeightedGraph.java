@@ -14,6 +14,7 @@ public class WeightedGraph {
 		myGraph.printMatrix();
 		System.out.println(myGraph.neighboursOf(1).toString());
 		myGraph.dijkstra(5);
+		myGraph.printArrays();
 		
 
 	}
@@ -111,6 +112,10 @@ public class WeightedGraph {
 
 			for (int i = 0; i < neighbours.size(); i++) {
 
+				if (vertSet.contains(i)){
+					break;
+				}
+				
 				int total = dist[curr] + matrix[curr][i];
 				if (total < dist[i]) {
 					dist[i] = total;
