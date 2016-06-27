@@ -29,16 +29,8 @@ public class WeightedGraph {
 		matrix[xCord][yCord] = cost;
 	}
 
-	private int getEdge(int xCord, int yCord) {
-
-		if (isFilled(xCord, yCord)) {
-			return matrix[xCord][yCord];
-		}
-		return 0;
-	}
-
 	private boolean isFilled(int xCord, int yCord) {
-		if (matrix[xCord][yCord] != 0) {
+		if (matrix[xCord][yCord] != Integer.MAX_VALUE) {
 			return true;
 		} else {
 			return false;
@@ -48,6 +40,12 @@ public class WeightedGraph {
 	private void createMatrix(int vertices, int edges) {
 		matrix = new int[vertices][vertices];
 
+		for(int i = 0; i < matrix.length; i++) {
+			for(int j = 0; j < matrix[i].length; j++) {
+				matrix[i][j] = Integer.MAX_VALUE;
+			}
+		}
+		
 		for (int i = 0; i < edges; i++) {
 			placeEdgeRandomly(vertices);
 		}
@@ -80,7 +78,7 @@ public class WeightedGraph {
 		for (int i = 0; i < vertices; i++) {
 			System.out.print(i + "\t");
 			for (int j = 0; j < vertices; j++) {
-				System.out.print(getEdge(i, j) + "\t");
+				System.out.print(matrix[i][j] + "\t");
 			}
 				
 			System.out.println();
@@ -105,15 +103,15 @@ public class WeightedGraph {
 
 			ArrayList<Integer> neighbours = neighboursOf(curr);
 
-			for (int i = 0; i < neighbours.size(); i++) {
-				if (!vertSet.contains(i)) {
+			for (int neighbour : neighbours) {
+				if (!vertSet.contains(neighbour)) {
 					break;
 				}
 
-				int total = dist[curr] + matrix[curr][i];
-				if (total < dist[i]) {
-					dist[i] = total;
-					prev[i] = curr;
+				int total = dist[curr] + matrix[curr][neighbour];
+				if (total < dist[neighbour]) {
+					dist[neighbour] = total;
+					prev[neighbour] = curr;
 				}
 			}
 		}
@@ -144,12 +142,15 @@ public class WeightedGraph {
 	}
 
 	private void printArrays() {
+		System.out.println("This is dist[]:");
 		for (int curr : dist) {
-			System.out.println(curr);
+			System.out.print(curr + " ");
 		}
-
+		
+		System.out.println();
+		System.out.println("This is prev[]");
 		for (int curr : prev) {
-			System.out.println(curr);
+			System.out.print(curr + " ");
 		}
 	}
 
