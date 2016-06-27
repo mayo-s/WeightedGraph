@@ -10,11 +10,11 @@ public class WeightedGraph {
 	int[] prev;
 
 	public static void main(String[] args) {
-		WeightedGraph myGraph = new WeightedGraph(21, 45);
+		WeightedGraph myGraph = new WeightedGraph(20, 100);
 		myGraph.printMatrix();
-		System.out.println(myGraph.neighboursOf(1).toString());
-//		myGraph.dijkstra(5);
-//		myGraph.printArrays();
+		//System.out.println(myGraph.neighboursOf(1).toString());
+		myGraph.dijkstra(5);
+		myGraph.printArrays();
 		
 
 	}
@@ -48,7 +48,7 @@ public class WeightedGraph {
 	private void createMatrix(int vertices, int edges) {
 		matrix = new int[vertices][vertices];
 
-		for (int i = edges - 1; i >= 0; i--) {
+		for (int i = 0; i < edges; i++) {
 			placeEdgeRandomly(vertices);
 		}
 	}
@@ -71,7 +71,6 @@ public class WeightedGraph {
 	}
 
 	private void printMatrix() {
-
 		System.out.print("\t");
 		for (int i = 0; i < vertices; i++) {
 			System.out.print(i + "\t");
@@ -86,27 +85,17 @@ public class WeightedGraph {
 				
 			System.out.println();
 		}
-
-		System.out.println();
-		
-		System.out.println("This is the first row:");
-		for (int row : matrix[0]){
-			System.out.println(row);
-		}
-
 	}
 
 	private void dijkstra(int origin) {
-
 		HashSet<Integer> vertSet = new HashSet<Integer>();
 		dist = new int[matrix.length];
 		prev = new int[matrix.length];
 
 		for (int i = 0; i < matrix.length; i++) {
-
 			vertSet.add(i);
 			dist[i] = Integer.MAX_VALUE;
-			prev[i] = 0;
+			prev[i] = -1;
 		}
 		dist[origin] = 0;
 
@@ -117,7 +106,6 @@ public class WeightedGraph {
 			ArrayList<Integer> neighbours = neighboursOf(curr);
 
 			for (int i = 0; i < neighbours.size(); i++) {
-
 				if (!vertSet.contains(i)) {
 					break;
 				}
@@ -127,21 +115,21 @@ public class WeightedGraph {
 					dist[i] = total;
 					prev[i] = curr;
 				}
-
 			}
 		}
-
 	}
 
 	private int cheapestVertex(HashSet<Integer> vertSet) {
 		int min = Integer.MAX_VALUE;
-
+		int minIndex = -1;
+		
 		for (int curr : vertSet) {
-			if (dist[curr] < min) {
+			if (dist[curr] <= min) {
 				min = dist[curr];
+				minIndex = curr;
 			}
 		}
-		return min;
+		return minIndex;
 	}
 
 	private ArrayList<Integer> neighboursOf(int vert) {
@@ -166,5 +154,3 @@ public class WeightedGraph {
 	}
 
 }
-
-// Remove length + 1!
