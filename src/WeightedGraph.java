@@ -79,6 +79,7 @@ public class WeightedGraph {
 			result = "Shortest Path from: " + (from + 1) + " to " + (to + 1) + "\nIs connected directly. The costs are "
 					+ getEdge(from, to).getCost();
 		} else if (!containsEdge(from, to)) {
+			System.out.println("Shortest Path from: " + (from + 1) + " to " + (to + 1));
 			dijkstra(from, to);
 			result = "Shortest Path from: " + (from + 1) + " to " + (to + 1) + " can not yet be calculated.";
 		}
@@ -87,6 +88,7 @@ public class WeightedGraph {
 	}
 
 	private void dijkstra(int from, int to) {
+		// Setup
 		HashSet<Vertex> visited = createVertices();
 		Iterator<Vertex> itv = visited.iterator();
 		boolean done = false;
@@ -98,15 +100,25 @@ public class WeightedGraph {
 				done = true;
 			}
 		}
+
 		HashSet<Integer> neighbors = getNeighbors(from);
 
 		while (itv.hasNext()) {
 			for (int n : neighbors) {
 				Vertex currNeighbor = itv.next();
-				currNeighbor.setCost(currNeighbor.getCost() + getEdge(from, n).getCost());
+				int newCost = 0;
+				if (currNeighbor.getCost() >= (int) Double.POSITIVE_INFINITY) {
+					newCost = 0 + getEdge(from, n).getCost();
+				} else {
+					newCost = currNeighbor.getCost() + getEdge(from, n).getCost();
+				}
+				System.out.println(currNeighbor.getName() + " " + currNeighbor.getCost());
+				if (currNeighbor.getCost() > newCost) {
+					currNeighbor.setCost(newCost);
+					System.out.println(currNeighbor.getName() + " " + currNeighbor.getCost());
+				}
 			}
 		}
-
 	}
 
 	private HashSet<Integer> getNeighbors(int from) {
@@ -122,7 +134,7 @@ public class WeightedGraph {
 	private HashSet<Vertex> createVertices() {
 		HashSet<Vertex> vertices = new HashSet<Vertex>();
 		for (int n = 0; n < MAX_VERTICES; n++) {
-			vertices.add(new Vertex((Integer.toString(n)), (int) (Double.POSITIVE_INFINITY), false));
+			vertices.add(new Vertex((Integer.toString(n+1)), (int) (Double.POSITIVE_INFINITY), false));
 		}
 		return vertices;
 	}
