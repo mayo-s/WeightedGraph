@@ -57,18 +57,18 @@ public class WeightedGraph {
 
 	private void placeEdgeRandomly(int vertices) {
 		Random rn = new Random();
-		int ranVerticeX = 0;
-		int ranVerticeY = 0;
+		int randVerticeX = 0;
+		int randVerticeY = 0;
 		do {
-			ranVerticeX = rn.nextInt((vertices + 1) - 1) + 1;
-			ranVerticeY = rn.nextInt((vertices + 1) - 1) + 1;
+			randVerticeX = rn.nextInt((vertices + 1) - 1) + 1;
+			randVerticeY = rn.nextInt((vertices + 1) - 1) + 1;
 
-		} while (isFilled(ranVerticeX, ranVerticeY) || ranVerticeX == ranVerticeY);
+		} while (isFilled(randVerticeX, randVerticeY) || randVerticeX == randVerticeY);
 
 		int ranCost = rn.nextInt((20 + 1) - 1) + 1;
 
-		matrix[ranVerticeX][ranVerticeY] = ranCost;
-		matrix[ranVerticeY][ranVerticeX] = ranCost;
+		matrix[randVerticeX][randVerticeY] = ranCost;
+		matrix[randVerticeY][randVerticeX] = ranCost;
 
 	}
 
@@ -105,14 +105,14 @@ public class WeightedGraph {
 		dist[origin] = 0;
 
 		while (!vertSet.isEmpty()) {
-			int curr = min(origin);
+			int curr = min(origin,vertSet);
 			vertSet.remove(curr);
 
 			ArrayList<Integer> neighbours = neighboursOf(curr);
 
 			for (int i = 0; i < neighbours.size(); i++) {
 
-				if (vertSet.contains(i)){
+				if (!vertSet.contains(i)){
 					break;
 				}
 				
@@ -127,11 +127,11 @@ public class WeightedGraph {
 
 	}
 
-	private int min(int vertArr) {
+	private int min(int vertArr, HashSet<Integer> vertSet) {
 
 		int min = Integer.MAX_VALUE;
 
-		for (int curr : matrix[vertArr]) {
+		for (int curr : vertSet) {
 			if (curr < min && curr != 0) {
 				min = curr;
 			}
