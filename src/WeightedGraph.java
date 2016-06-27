@@ -73,15 +73,15 @@ public class WeightedGraph {
 
 	private void printMatrix() {
 
-		System.out.print("  ");
+		System.out.print("\t");
 		for (int i = 1; i < vertices; i++)
-			System.out.print(i-1 + " ");
+			System.out.print(i-1 + "\t");
 		System.out.println();
 
 		for (int i = 1; i < vertices; i++) {
-			System.out.print(i-1 + " ");
+			System.out.print(i-1 + "\t");
 			for (int j = 1; j < vertices; j++)
-				System.out.print(getEdge(i, j) + " ");
+				System.out.print(getEdge(i, j) + "\t");
 			System.out.println();
 		}
 
@@ -104,7 +104,7 @@ public class WeightedGraph {
 		dist[origin] = 0;
 
 		while (!vertSet.isEmpty()) {
-			int curr = min(vertSet);
+			int curr = cheapestVertex(vertSet);
 			vertSet.remove(curr);
 
 			ArrayList<Integer> neighbours = neighboursOf(curr);
@@ -126,7 +126,7 @@ public class WeightedGraph {
 
 	}
 
-	private int min(HashSet<Integer> vertSet) {
+	private int cheapestVertex(HashSet<Integer> vertSet) {
 
 		int min = Integer.MAX_VALUE;
 
