@@ -13,8 +13,9 @@ public class WeightedGraph {
 		WeightedGraph myGraph = new WeightedGraph(21, 45);
 		myGraph.printMatrix();
 		System.out.println(myGraph.neighboursOf(1).toString());
-		myGraph.dijkstra(5);
-		myGraph.printArrays();
+//		myGraph.dijkstra(5);
+//		myGraph.printArrays();
+		
 
 	}
 
@@ -45,47 +46,53 @@ public class WeightedGraph {
 	}
 
 	private void createMatrix(int vertices, int edges) {
-
-		matrix = new int[vertices][vertices ];
+		matrix = new int[vertices][vertices];
 
 		for (int i = edges - 1; i >= 0; i--) {
 			placeEdgeRandomly(vertices);
 		}
-
 	}
 
 	private void placeEdgeRandomly(int vertices) {
 		Random rn = new Random();
-		int randVerticeX = 0;
-		int randVerticeY = 0;
+		int randVertexX = 0;
+		int randVertexY = 0;
 		do {
-			randVerticeX = rn.nextInt((vertices) - 1) + 1;
-			randVerticeY = rn.nextInt((vertices) - 1) + 1;
+			randVertexX = rn.nextInt(vertices);
+			randVertexY = rn.nextInt(vertices);
 
-		} while (isFilled(randVerticeX, randVerticeY) || randVerticeX == randVerticeY);
+		} while (isFilled(randVertexX, randVertexY) || randVertexX == randVertexY);
 
-		int ranCost = rn.nextInt((20 + 1) - 1) + 1;
+		int randCost = rn.nextInt(20) + 1;
 
-		matrix[randVerticeX][randVerticeY] = ranCost;
-		matrix[randVerticeY][randVerticeX] = ranCost;
+		matrix[randVertexX][randVertexY] = randCost;
+		matrix[randVertexY][randVertexX] = randCost;
 
 	}
 
 	private void printMatrix() {
 
 		System.out.print("\t");
-		for (int i = 1; i < vertices; i++)
-			System.out.print(i-1 + "\t");
+		for (int i = 0; i < vertices; i++) {
+			System.out.print(i + "\t");
+		}
 		System.out.println();
 
-		for (int i = 1; i < vertices; i++) {
-			System.out.print(i-1 + "\t");
-			for (int j = 1; j < vertices; j++)
+		for (int i = 0; i < vertices; i++) {
+			System.out.print(i + "\t");
+			for (int j = 0; j < vertices; j++) {
 				System.out.print(getEdge(i, j) + "\t");
+			}
+				
 			System.out.println();
 		}
 
 		System.out.println();
+		
+		System.out.println("This is the first row:");
+		for (int row : matrix[0]){
+			System.out.println(row);
+		}
 
 	}
 
@@ -127,7 +134,6 @@ public class WeightedGraph {
 	}
 
 	private int cheapestVertex(HashSet<Integer> vertSet) {
-
 		int min = Integer.MAX_VALUE;
 
 		for (int curr : vertSet) {
@@ -135,21 +141,18 @@ public class WeightedGraph {
 				min = dist[curr];
 			}
 		}
-
 		return min;
 	}
 
 	private ArrayList<Integer> neighboursOf(int vert) {
-
 		ArrayList<Integer> result = new ArrayList<Integer>();
 
 		for (int i = 0; i < matrix[vert].length; i++) {
 			if (matrix[vert][i] != 0) {
-				result.add(i-1);
+				result.add(i);
 			}
 		}
 		return result;
-
 	}
 
 	private void printArrays() {
