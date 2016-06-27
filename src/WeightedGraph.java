@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -74,9 +73,6 @@ public class WeightedGraph {
 		int to = (int) (Math.random() * MAX_VERTICES);
 		String result = null;
 
-		// System.out.println("\nCalculating shortest Path from: " + from + " to
-		// " + to);
-
 		if (from == to) {
 			shortestPath();
 		} else if (containsEdge(from, to)) {
@@ -91,23 +87,25 @@ public class WeightedGraph {
 	}
 
 	private void dijkstra(int from, int to) {
-		HashSet<Vertex> visited = new HashSet<Vertex>();
-		HashSet<Vertex> unvisited = createVertices();
-
-		Iterator<Vertex> itu = unvisited.iterator();
+		HashSet<Vertex> visited = createVertices();
 		Iterator<Vertex> itv = visited.iterator();
 		boolean done = false;
-		while (itu.hasNext() && !done) {
-			Vertex curr = itu.next();
-			if (curr.getName().equals(Integer.toString(from))) {
-				visited.add(curr);
-				unvisited.remove(curr);
+		while (itv.hasNext() && !done) {
+			Vertex currVertex = itv.next();
+			if (currVertex.getName().equals(Integer.toString(from))) {
+				currVertex.setVisited(true);
+				currVertex.setCost(0);
 				done = true;
 			}
 		}
 		HashSet<Integer> neighbors = getNeighbors(from);
-		
-		
+
+		while (itv.hasNext()) {
+			for (int n : neighbors) {
+				Vertex currNeighbor = itv.next();
+				currNeighbor.setCost(currNeighbor.getCost() + getEdge(from, n).getCost());
+			}
+		}
 
 	}
 
@@ -124,7 +122,7 @@ public class WeightedGraph {
 	private HashSet<Vertex> createVertices() {
 		HashSet<Vertex> vertices = new HashSet<Vertex>();
 		for (int n = 0; n < MAX_VERTICES; n++) {
-			vertices.add(new Vertex((Integer.toString(n)), (int) (Double.POSITIVE_INFINITY)));
+			vertices.add(new Vertex((Integer.toString(n)), (int) (Double.POSITIVE_INFINITY), false));
 		}
 		return vertices;
 	}
