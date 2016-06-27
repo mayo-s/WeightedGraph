@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class WeightedGraph {
 
@@ -27,11 +28,11 @@ public class WeightedGraph {
 	private void randomEdges() {
 		int edgeCnt = 0;
 		int maxCost = 5;
-		do {
+		while (edgeCnt < MAX_EDGES) {
 			for (int x = 1; x < MAX_VERTICES; x++) {
 				for (int y = 1; y < MAX_VERTICES; y++) {
 					int decision = (int) (Math.random() * 5);
-					if (decision == 1) {
+					if (decision == 1 && x != y) {
 						int cost = (int) (Math.random() * maxCost + 1);
 						addEdge(x, y, new Edge(cost));
 						edgeCnt++;
@@ -40,7 +41,7 @@ public class WeightedGraph {
 					}
 				}
 			}
-		} while (edgeCnt < MAX_EDGES);
+		}
 	}
 
 	public void printMatrix() {
@@ -70,26 +71,51 @@ public class WeightedGraph {
 		int from = (int) (Math.random() * MAX_VERTICES);
 		int to = (int) (Math.random() * MAX_VERTICES);
 		String result = null;
-		
-		// System.out.println("\nCalculating shortest Path from: " + from + " to " + to);
+
+		// System.out.println("\nCalculating shortest Path from: " + from + " to
+		// " + to);
 
 		if (from == to) {
 			shortestPath();
 		}
-		if(containsEdge(from, to)){
-			result = "Shortest Path from: " + from + " to " + to + "\nIs connected directly. The costs are " + getEdge(from, to).getCost();
+		if (containsEdge(from, to)) {
+			result = "Shortest Path from: " + (from + 1) + " to " + (to + 1) + "\nIs connected directly. The costs are "
+					+ getEdge(from, to).getCost();
 		}
-		if(!containsEdge(from,to)){
-			dijkstra(from, to);
-			result =  "Shortest Path from: " + from + " to " + to + " can not yet be calculated.";
+		if (!containsEdge(from, to)) {
+			shortestPath(from, to);
+			result = "Shortest Path from: " + (from + 1) + " to " + (to + 1) + " can not yet be calculated.";
 		}
-				
+
 		return result;
 	}
-	
-	private void dijkstra(int from, int to){
-		
-		
-		// return null;
+
+	private ArrayList<Integer> shortestPath(int from, int to) {
+		int currentVertex = from;
+		int cost = 0;
+		ArrayList<Integer> path = new ArrayList<Integer>();
+
+		do {
+			ArrayList<Integer> currentNeighbor = new ArrayList<Integer>();
+			for (int possibleNeighbor = 0; possibleNeighbor < matrix.length - 1; possibleNeighbor++) {
+				currentNeighbor = neighbor(currentVertex, possibleNeighbor);
+			}
+			for(int n : currentNeighbor){
+				currentVertex = currentNeighbor.get(n);
+			}
+		} while (currentVertex != to);
+
+		return path;
+	}
+
+	private ArrayList<Integer> neighbor(int from, int to) {
+
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+		for (int n = 0; n < matrix.length; n++) {
+			if (containsEdge(from, n)) {
+				temp.add(n);
+			}
+		}
+		return temp;
 	}
 }
